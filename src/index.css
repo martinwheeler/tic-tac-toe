@@ -1,13 +1,151 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-family: "Comic Sans MS";
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+html {
+  background-color: #1ecbe1;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.square {
+  background-color: #e1341e;
+  border-right: 1px solid #282c34;
+  border-top: 1px solid #282c34;
+  border-bottom: 1px solid #e1341e;
+  border-left: 1px solid #e1341e;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 38px;
+  font-weight: bold;
+  font-family: "Comic Sans MS";
+
+  transform: rotate(0deg) scale(1, 1);
+}
+
+.square-left {
+  border-left: 1px solid #282c34;
+}
+
+.square-bottom {
+  border-bottom: 1px solid #282c34;
+}
+
+@keyframes shake {
+  0% {
+    transform: rotate(0deg) scale(1.1, 1.1);
+  }
+  50% {
+    transform: rotate(5deg) scale(1.1, 1.1);
+  }
+  100% {
+    transform: rotate(-5deg) scale(1.1, 1.1);
+  }
+}
+
+.square:hover {
+  /* background-color: rgba(225, 52, 30, 0.9); */
+  border: 1px solid #282c34;
+  animation-name: shake;
+  animation-duration: 500ms;
+  animation-iteration-count: infinite;
+  position: relative;
+  z-index: 1;
+}
+
+.square:active {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.board {
+  display: inline-block;
+  margin: 40px;
+}
+
+.row {
+  display: flex;
+}
+
+.app-container {
+  margin-top: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.game-info {
+  text-transform: uppercase;
+  font-size: 32px;
+  color: #282c34;
+}
+
+button {
+  text-transform: uppercase;
+  font-family: "Comic Sans MS";
+  display: inline-block;
+  outline: 0;
+  cursor: pointer;
+  border: none;
+  padding: 0 56px;
+  height: 45px;
+  line-height: 45px;
+  border-radius: 2px;
+  font-weight: 400;
+  font-size: 16px;
+  background: #fff;
+  color: #282c34;
+  box-shadow: 0 4px 14px 0 rgb(0 0 0 / 10%);
+  transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover {
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 6px 20px rgb(93 93 93 / 46%);
+}
+
+button:active {
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 6px 20px rgb(93 93 93 / 23%);
 }
