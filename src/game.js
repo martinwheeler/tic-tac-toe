@@ -31,7 +31,7 @@ function Game() {
       }
 
       // https://stackoverflow.com/a/6619547
-      if (/^(.)\1+$/.test(possiblePlay) && possiblePlay.length == COLUMNS) {
+      if (/^(.)\1+$/.test(possiblePlay) && possiblePlay.length === COLUMNS) {
         setWinner(possiblePlay.includes(PLAYER_ONE) ? WINNER.ONE : WINNER.TWO);
         return;
       }
@@ -46,7 +46,7 @@ function Game() {
       }
 
       // https://stackoverflow.com/a/6619547
-      if (/^(.)\1+$/.test(possiblePlay) && possiblePlay.length == COLUMNS) {
+      if (/^(.)\1+$/.test(possiblePlay) && possiblePlay.length === COLUMNS) {
         setWinner(possiblePlay.includes(PLAYER_ONE) ? WINNER.ONE : WINNER.TWO);
         return;
       }
@@ -60,7 +60,7 @@ function Game() {
     }
 
     // https://stackoverflow.com/a/6619547
-    if (/^(.)\1+$/.test(possiblePlay) && possiblePlay.length == COLUMNS) {
+    if (/^(.)\1+$/.test(possiblePlay) && possiblePlay.length === COLUMNS) {
       setWinner(possiblePlay.includes(PLAYER_ONE) ? WINNER.ONE : WINNER.TWO);
       return;
     }
@@ -73,7 +73,7 @@ function Game() {
     }
 
     // https://stackoverflow.com/a/6619547
-    if (/^(.)\1+$/.test(possiblePlay) && possiblePlay.length == COLUMNS) {
+    if (/^(.)\1+$/.test(possiblePlay) && possiblePlay.length === COLUMNS) {
       setWinner(possiblePlay.includes(PLAYER_ONE) ? WINNER.ONE : WINNER.TWO);
       return;
     }
@@ -104,7 +104,7 @@ function Game() {
         <div className="game-info">Player {winner} is the winner</div>
       )}
       <Board
-        hasWinner={winner != WINNER.NONE}
+        hasWinner={winner !== WINNER.NONE}
         possibleMoves={possibleMoves}
         addMove={handleAddMove}
         currentPlayer={currentPlayer}

@@ -11,8 +11,8 @@ function Square({ currentMove, row, column, ...props }) {
   };
 
   const classes = classNames("square", {
-    "square-left": column == 0,
-    "square-bottom": row == ROWS - 1,
+    "square-left": column === 0,
+    "square-bottom": row === ROWS - 1,
   });
 
   return (
