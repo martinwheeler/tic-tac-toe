@@ -33,22 +33,6 @@ function Game() {
   const handleCheckWinner = (currentMoves) => {
     let possiblePlay = "";
 
-    // Check for a draw state
-    possiblePlay = 0;
-    currentMoves.forEach((row) => {
-      row.forEach((square) => {
-        if (!!square) {
-          possiblePlay++;
-        }
-      });
-    });
-
-    // We know we have a draw state when all squares are consumed by a move
-    if (possiblePlay === ROWS * COLUMNS) {
-      setWinner(WINNER.DRAW);
-      return;
-    }
-
     // Check horizontal moves
     possiblePlay = "";
     for (let i = 0; i < ROWS; i++) {
@@ -118,6 +102,22 @@ function Game() {
           ? WINNER.PLAYER_ONE
           : WINNER.PLAYER_TWO
       );
+      return;
+    }
+
+    // Check for a draw state
+    possiblePlay = 0;
+    currentMoves.forEach((row) => {
+      row.forEach((square) => {
+        if (!!square) {
+          possiblePlay++;
+        }
+      });
+    });
+
+    // We know we have a draw state when all squares are consumed by a move
+    if (possiblePlay === ROWS * COLUMNS) {
+      setWinner(WINNER.DRAW);
       return;
     }
   };
