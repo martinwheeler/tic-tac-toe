@@ -1,3 +1,8 @@
+:root {
+  --player-one-bg-color: red;
+  --player-two-bg-color: green;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -17,38 +22,30 @@ html {
   background-color: #1ecbe1;
 }
 
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.game {
+  margin-top: 150px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.board {
+  display: inline-block;
+  margin: 40px;
+}
+
+.row {
+  display: flex;
 }
 
 .square {
-  background-color: #e1341e;
+  background-color: #242424;
   border-right: 1px solid #282c34;
   border-top: 1px solid #282c34;
   border-bottom: 1px solid #e1341e;
@@ -85,34 +82,41 @@ html {
   }
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  .square:hover {
+    animation-name: shake;
+    animation-duration: 500ms;
+    animation-iteration-count: infinite;
+  }
+}
+
+.player-one {
+  color: var(--player-one-bg-color);
+}
+
+.player-one:hover {
+  background-color: var(--player-one-bg-color);
+  color: var(--player-one-bg-color);
+}
+
+.player-two {
+  color: var(--player-two-bg-color);
+}
+
+.player-two:hover {
+  background-color: var(--player-two-bg-color);
+  color: var(--player-two-bg-color);
+}
+
 .square:hover {
-  /* background-color: rgba(225, 52, 30, 0.9); */
-  border: 1px solid #282c34;
-  animation-name: shake;
-  animation-duration: 500ms;
-  animation-iteration-count: infinite;
+  border: 1px solid white;
   position: relative;
   z-index: 1;
+  transform: scale(1.025, 1.025);
 }
 
 .square:active {
   background-color: rgba(0, 0, 0, 0.5);
-}
-
-.board {
-  display: inline-block;
-  margin: 40px;
-}
-
-.row {
-  display: flex;
-}
-
-.app-container {
-  margin-top: 150px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 .game-info {

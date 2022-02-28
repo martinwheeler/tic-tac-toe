@@ -10,6 +10,7 @@ function Board(props) {
       <Square
         onClick={props.addMove(rowIndex, squareIndex)}
         currentMove={move}
+        currentPlayer={props.currentPlayer}
         row={rowIndex}
         column={squareIndex}
         key={`${rowIndex}-${squareIndex}`}
