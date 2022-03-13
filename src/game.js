@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
 import Board from "./components/board";
@@ -57,7 +57,7 @@ function Game() {
 
       return () => newSocket.close();
     }
-  }, [loading, playStyle]);
+  }, [loading, isMultiplayer, handleSetMoves]);
 
   const handleCheckWinner = (currentMoves) => {
     let possiblePlay = "";
@@ -163,10 +163,10 @@ function Game() {
     handleSetPlayer();
   };
 
-  const handleSetMoves = (newMoves) => {
+  const handleSetMoves = useCallback((newMoves) => {
     setMoves(newMoves);
     handleCheckWinner(newMoves);
-  };
+  }, []);
 
   const handleSetPlayer = () => {
     const newPlayer = currentPlayer === PLAYER_ONE ? PLAYER_TWO : PLAYER_ONE;
