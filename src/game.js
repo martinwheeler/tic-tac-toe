@@ -16,7 +16,7 @@ import {
 import classNames from "classnames";
 
 const serverUrl =
-  process.env.NODE_ENV !== "production"
+  process.env.NODE_ENV === "production"
     ? "wss://tic-tac-toe-martin.herokuapp.com/"
     : `ws://${window.location.hostname}:3001`;
 
