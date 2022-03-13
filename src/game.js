@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
 import Board from "./components/board";
+import Menu from "./components/menu";
+import io from "socket.io-client";
 
 import {
   ROWS,
@@ -19,16 +21,38 @@ function Game() {
   const [currentPlayer, setPlayer] = useState(PLAYER_ONE);
   const [winner, setWinner] = useState(WINNER.NONE);
   const [loading, setLoading] = useState(true);
+  const [socket, setSocket] = useState(null);
+  const [showMenu, setShowMenu] = useState(true);
+  const [playStyle, setPlayStyle] = useState(true);
   const hasWinner = winner !== WINNER.NONE;
+  const isMultiplayer = playStyle === "multi";
 
   useEffect(() => {
     if (loading) {
-      console.log("loading");
       setTimeout(() => {
         setLoading(false);
       }, 1000);
     }
   }, [loading]);
+
+  useEffect(() => {
+    if (isMultiplayer) {
+      const newSocket = io(`http://${window.location.hostname}:3001`);
+      setSocket(newSocket);
+
+      newSocket.on("moves", (newMoves) => {
+        handleSetMoves(newMoves);
+      });
+
+      newSocket.on("player", (newPlayer) => {
+        setPlayer(newPlayer);
+      });
+
+      newSocket.on("reset", resetGame);
+
+      return () => newSocket.close();
+    }
+  }, [loading, playStyle]);
 
   const handleCheckWinner = (currentMoves) => {
     let possiblePlay = "";
@@ -126,15 +150,49 @@ function Game() {
     const newMoves = possibleMoves.map((move) => move.slice());
     newMoves[row][square] = currentPlayer;
 
-    setMoves(newMoves);
-    handleCheckWinner(newMoves);
-    setPlayer(currentPlayer === PLAYER_ONE ? PLAYER_TWO : PLAYER_ONE);
+    if (isMultiplayer) {
+      socket.emit("moves", newMoves);
+    }
+
+    handleSetMoves(newMoves);
+    handleSetPlayer();
   };
 
-  const handleResetGame = () => {
+  const handleSetMoves = (newMoves) => {
+    setMoves(newMoves);
+    handleCheckWinner(newMoves);
+  };
+
+  const handleSetPlayer = () => {
+    const newPlayer = currentPlayer === PLAYER_ONE ? PLAYER_TWO : PLAYER_ONE;
+    if (isMultiplayer) {
+      socket.emit("player", newPlayer);
+    }
+
+    setPlayer(newPlayer);
+  };
+
+  const resetGame = () => {
     setPlayer(PLAYER_ONE);
     setMoves(POSSIBLE_MOVES.map((move) => move.slice()));
     setWinner(WINNER.NONE);
+  };
+
+  const handleResetGame = () => {
+    if (isMultiplayer) {
+      socket.emit("reset");
+    }
+    resetGame();
+  };
+
+  const handleSetPlayStyle = (style) => () => {
+    setShowMenu(false);
+    setPlayStyle(style);
+  };
+
+  const handleMainMenu = () => {
+    setPlayStyle(null);
+    setShowMenu(true);
   };
 
   const currentPlayerClass = classNames({
@@ -148,36 +206,45 @@ function Game() {
   });
 
   return (
-    <div className="game">
-      {hasWinner && <Confetti width={width} height={height} />}
-      {!hasWinner && (
-        <div className="game-info">
-          Player <span className={currentPlayerClass}>{currentPlayer}'s</span>{" "}
-          turn
-        </div>
-      )}
-      {hasWinner && (
-        <div className="game-info">
-          {winner === WINNER.DRAW ? (
-            <>It was a draw!</>
-          ) : (
-            <>
-              Player <span className={currentWinnerClass}>{winner}</span> is the
-              winner
-            </>
+    <>
+      {showMenu ? (
+        <Menu handleSetPlayStyle={handleSetPlayStyle} />
+      ) : (
+        <div className="game">
+          {hasWinner && <Confetti width={width} height={height} />}
+          {!hasWinner && (
+            <div className="game-info">
+              Player{" "}
+              <span className={currentPlayerClass}>{currentPlayer}'s</span> turn
+            </div>
           )}
+          {hasWinner && (
+            <div className="game-info">
+              {winner === WINNER.DRAW ? (
+                <>It was a draw!</>
+              ) : (
+                <>
+                  Player <span className={currentWinnerClass}>{winner}</span> is
+                  the winner
+                </>
+              )}
+            </div>
+          )}
+          <Board
+            hasWinner={winner !== WINNER.NONE}
+            possibleMoves={possibleMoves}
+            addMove={handleAddMove}
+            currentPlayer={currentPlayer}
+          />
+          <button onClick={handleResetGame} className="game-button">
+            New Game
+          </button>
+          <button onClick={handleMainMenu} className="game-button">
+            Main Menu
+          </button>
         </div>
       )}
-      <Board
-        hasWinner={winner !== WINNER.NONE}
-        possibleMoves={possibleMoves}
-        addMove={handleAddMove}
-        currentPlayer={currentPlayer}
-      />
-      <button onClick={handleResetGame} className="game-button">
-        New Game
-      </button>
-    </div>
+    </>
   );
 }
 
