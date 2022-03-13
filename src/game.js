@@ -15,6 +15,11 @@ import {
 } from "./globals";
 import classNames from "classnames";
 
+const serverUrl =
+  process.env.NODE_ENV !== "production"
+    ? "wss://tic-tac-toe-martin.herokuapp.com/"
+    : `ws://${window.location.hostname}:3001`;
+
 function Game() {
   const { width, height } = useWindowSize();
   const [possibleMoves, setMoves] = useState(POSSIBLE_MOVES);
@@ -37,7 +42,7 @@ function Game() {
 
   useEffect(() => {
     if (isMultiplayer) {
-      const newSocket = io(`http://${window.location.hostname}:3001`);
+      const newSocket = io(serverUrl);
       setSocket(newSocket);
 
       newSocket.on("moves", (newMoves) => {
