@@ -239,35 +239,26 @@ button:active {
   font-size: 48px;
 }
 
-@keyframes rotate360 {
+@keyframes shakeTwo {
   from {
-    transform: rotate(0deg);
+    transform: rotate(-10deg);
   }
   to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes upDown {
-  from {
-    transform: translateY(-50%);
-  }
-  to {
-    transform: translateY(50%);
+    transform: rotate(10deg);
   }
 }
 
 .menu .title .first {
-  animation: shake 1s linear 0s infinite alternate,
+  animation: shakeTwo 1s linear 0s infinite alternate,
     backgroundSlide 5s linear 0.2s infinite;
 }
 
 .menu .title .second {
-  animation: shake 1s linear 0s infinite alternate-reverse,
+  animation: shakeTwo 1s linear 0s infinite alternate-reverse,
     backgroundSlide 5s linear 0.1s infinite;
 }
 
 .menu .title .third {
-  animation: shake 1s linear 0s infinite alternate,
+  animation: shakeTwo 1s linear 0s infinite alternate,
     backgroundSlide 5s linear 0s infinite;
 }
