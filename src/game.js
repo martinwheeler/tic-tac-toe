@@ -241,10 +241,10 @@ function Game() {
             addMove={handleAddMove}
             currentPlayer={currentPlayer}
           />
-          <button onClick={handleResetGame} className="game-button">
+          <button onClick={handleResetGame} className="button">
             New Game
           </button>
-          <button onClick={handleMainMenu} className="game-button">
+          <button onClick={handleMainMenu} className="button">
             Main Menu
           </button>
         </div>
