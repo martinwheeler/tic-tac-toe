@@ -32,33 +32,6 @@ function Game() {
   const hasWinner = winner !== WINNER.NONE;
   const isMultiplayer = playStyle === "multi";
 
-  useEffect(() => {
-    if (loading) {
-      setTimeout(() => {
-        setLoading(false);
-      }, 1000);
-    }
-  }, [loading]);
-
-  useEffect(() => {
-    if (isMultiplayer) {
-      const newSocket = io(serverUrl);
-      setSocket(newSocket);
-
-      newSocket.on("moves", (newMoves) => {
-        handleSetMoves(newMoves);
-      });
-
-      newSocket.on("player", (newPlayer) => {
-        setPlayer(newPlayer);
-      });
-
-      newSocket.on("reset", resetGame);
-
-      return () => newSocket.close();
-    }
-  }, [loading, isMultiplayer, handleSetMoves]);
-
   const handleCheckWinner = (currentMoves) => {
     let possiblePlay = "";
 
@@ -199,6 +172,33 @@ function Game() {
     setPlayStyle(null);
     setShowMenu(true);
   };
+
+  useEffect(() => {
+    if (loading) {
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+    }
+  }, [loading]);
+
+  useEffect(() => {
+    if (isMultiplayer) {
+      const newSocket = io(serverUrl);
+      setSocket(newSocket);
+
+      newSocket.on("moves", (newMoves) => {
+        handleSetMoves(newMoves);
+      });
+
+      newSocket.on("player", (newPlayer) => {
+        setPlayer(newPlayer);
+      });
+
+      newSocket.on("reset", resetGame);
+
+      return () => newSocket.close();
+    }
+  }, [loading, isMultiplayer, handleSetMoves]);
 
   const currentPlayerClass = classNames({
     "player-one": currentPlayer === PLAYER_ONE,
